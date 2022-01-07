@@ -1,0 +1,11 @@
+{
+  "codeowners": ["@jasonfry89"],
+  "config_flow": false,
+  "dependencies": [],
+  "documentation": "https://github.com/jasonfry89/homeassistant-milwaukee-dpw",
+  "domain": "milwaukee_dpw_parser",
+  "iot_class": "cloud_polling",
+  "name": "Milwaukee Wisconsin Department of Public Works Parser",
+  "requirements": [],
+  "version": "0.1.0"
+}

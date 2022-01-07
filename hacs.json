@@ -1,0 +1,5 @@
+{
+  "name": "Milwaukee Wisconsin Department of Public Works Parser",
+  "render_readme": true,
+  "iot_class": "cloud_polling"
+}
