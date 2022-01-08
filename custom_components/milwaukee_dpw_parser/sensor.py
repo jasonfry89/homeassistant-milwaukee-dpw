@@ -8,6 +8,8 @@ from homeassistant.const import (
 	CONF_NAME,
 	CONF_TYPE,
 	CONF_ADDRESS,
+	CONF_VALUE_TEMPLATE,
+	STATE_UNKNOWN,
 )
 
 from homeassistant.helpers.typing import (
@@ -29,6 +31,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 	vol.Required(CONF_NAME): cv.string,
 	vol.Required(CONF_ADDRESS): cv.string,
 	vol.Required(CONF_TYPE): cv.string, 
+	vol.Optional(CONF_VALUE_TEMPLATE): cv.template,
 })
 
 async def async_setup_platform(
@@ -37,11 +40,11 @@ async def async_setup_platform(
 	async_add_entities: Callable,
 	discovery_info: Optional[DiscoveryInfoType] = None,
 ) -> None:
-	sensors = [MilwaukeeDPWParserSensor(config)]
+	sensors = [MilwaukeeDPWParserSensor(hass, config)]
 	async_add_entities(sensors, update_before_add=True)
 
 class MilwaukeeDPWParserSensor(Entity):
-	def __init__(self, config: ConfigType):
+	def __init__(self, hass: HomeAssistantType, config: ConfigType):
 		super().__init__()
 		address = config[CONF_ADDRESS]
 		address_parts = address.upper().split(" ")
@@ -54,6 +57,9 @@ class MilwaukeeDPWParserSensor(Entity):
 		self._state = None
 		self._available = True
 		self._icon = "mdi:trash-can" if self._collection_type == "garbage" else "mdi:recycle"
+		self._value_template = config.get(CONF_VALUE_TEMPLATE)
+		if self._value_template is not None:
+			self._value_template.hass = hass
 
 	@property
 	def name(self) -> str:
@@ -79,15 +85,20 @@ class MilwaukeeDPWParserSensor(Entity):
 			self._street,
 			self._suffix,
 		)
-
+		
 		if self._collection_type == "garbage":
-			self._state = garbage_date
+			value = garbage_date
 		elif self._collection_type == "recycling":
-			self._state = recycling_date
+			value = recycling_date
 		else:
 			raise Exception(f"Invalid collection type {self._collection_type}")
+		_LOGGER.debug(f"Value: {value}")
 
-		_LOGGER.debug(self._state)		
+		if self._value_template is not None:
+			self._state = self._value_template.render_with_possible_json_value(value, STATE_UNKNOWN)
+		else:
+			self._state = value
+		_LOGGER.debug(f"State: {self._state}")		
 
 
 
