@@ -53,7 +53,7 @@ class MilwaukeeDPWParserSensor(Entity):
 		self._name = config[CONF_NAME]
 		self._state = None
 		self._available = True
-		self._icon = "mdi:trash-can" if self._collection_type == "garbage" else "mdi:recycling"
+		self._icon = "mdi:trash-can" if self._collection_type == "garbage" else "mdi:recycle"
 
 	@property
 	def name(self) -> str:
