@@ -1,13 +1,13 @@
 {
-  "codeowners": ["@jasonfry89"],
-  "config_flow": false,
-  "dependencies": [],
-  "documentation": "https://github.com/jasonfry89/homeassistant-milwaukee-dpw",
-  "domain": "milwaukee_dpw_parser",
-  "iot_class": "cloud_polling",
-  "name": "Milwaukee Wisconsin Department of Public Works Parser",
-  "requirements": [
-    "git+git://github.com/jasonfry89/milwaukee-dpw-parser@d57105daa9945454d21ee71cf341f7f884903208"
-  ],
-  "version": "0.1.0"
+	"codeowners": ["@jasonfry89"],
+	"config_flow": false,
+	"dependencies": [],
+	"documentation": "https://github.com/jasonfry89/homeassistant-milwaukee-dpw",
+	"domain": "milwaukee_dpw_parser",
+	"iot_class": "cloud_polling",
+	"name": "Milwaukee Wisconsin Department of Public Works Parser",
+	"requirements": [
+		"milwaukee_dpw_parser>=0.1.1"	
+	],
+	"version": "0.1.0"
 }
