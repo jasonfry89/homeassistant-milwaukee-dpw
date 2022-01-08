@@ -53,6 +53,7 @@ class MilwaukeeDPWParserSensor(Entity):
 		self._name = config[CONF_NAME]
 		self._state = None
 		self._available = True
+		self._icon = "mdi:trash-can" if self._collection_type == "garbage" else "mdi:recycling"
 
 	@property
 	def name(self) -> str:
@@ -65,6 +66,10 @@ class MilwaukeeDPWParserSensor(Entity):
 	@property
 	def state(self) -> Optional[date]:
 		return self._state
+
+	@property
+	def icon(self) -> str:
+		return self._icon
 
 	async def async_update(self):
 		from milwaukee_dpw_parser import get_next_garbage_and_recycling_dates
